@@ -1,0 +1,5 @@
+library(Biostrings)
+library(rBLAST)
+library(seqinr)
+library(plyr)
+library(data.table)
