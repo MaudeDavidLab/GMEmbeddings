@@ -1,6 +1,6 @@
 #' @export
 getExampleSeqtab <- function(){
-  seqtab <- utils::read.csv("data/test_files/seqtab_test.csv")
+  seqtab <- utils::read.csv("../data/test_files/seqtab_test.csv")
   rownames(seqtab) <- seqtab$X
   rownames(seqtab) <- gsub("X", "", rownames(seqtab))
   seqtab <- seqtab[, 2:ncol(seqtab)]
@@ -8,8 +8,8 @@ getExampleSeqtab <- function(){
 }
 
 getExampleSeqtab_AG <- function(){
-  seqtab <- data.table::fread("data/seqtab_final_filter.07.txt", header = F, sep = '\t')
-  seqs <- scan("data/sequences_.07.txt", what = character())
+  seqtab <- data.table::fread("../data/seqtab_final_filter.07.txt", header = F, sep = '\t')
+  seqs <- scan("../data/sequences_.07.txt", what = character())
   seqtab <- as.data.frame(seqtab)
   rownames(seqtab) <- seqtab$V1
   rownames(seqtab) <- gsub("X", "", rownames(seqtab))
@@ -32,7 +32,7 @@ getExampleSeqtab_Halfvarson <- function(){
 
 #' @export
 getExampleFasta <- function(){
-  fasta_file <- "data/test_files/fasta_test.fasta"
+  fasta_file <- "../data/test_files/fasta_test.fasta"
   return(fasta_file)
 }
 
@@ -101,7 +101,7 @@ transformSeqtab <- function(seqtab, fasta_file, best_hits){
   #sample by ASV
   print('converting ids')
   #run if column names are in full sequence form. Don't run if the column names are ASV
-  #colnames(seqtab) <- convertIDs(ids = colnames(seqtab), from_id = "ASV", to_id = "embedIDs", fasta_file) #fasta should contain all sequences in seqtab
+  colnames(seqtab) <- convertIDs(ids = colnames(seqtab), from_id = "ASV", to_id = "embedIDs", fasta_file) #fasta should contain all sequences in seqtab
   seqtab <- seqtab[, colnames(seqtab) %in% as.character(best_hits$qseqid)]
 
   # Split counts among all best hits
@@ -125,11 +125,11 @@ embedSeqtab <- function(seqtab, fasta_file, best_hits, embedding_file_name){
 }
 
 
-EmbedAsvTable <- function(blast_hits, embedding_file_name){
+EmbedAsvTable <- function(seqtab, fasta_file, blast_hits, embedding_file_name){
 
   best_hits = getBestHits(blast_hits = blast_hits, id_thresh = 99)
 
-  seqtab <- embedSeqtab(getExampleSeqtab(), fasta_file = getExampleFasta(), best_hits = best_hits, embedding_file_name)
+  seqtab <- embedSeqtab(seqtab = seqtab, fasta_file = fasta_file, best_hits = best_hits, embedding_file_name = embedding_file_name)
 
   seqtab
 }
