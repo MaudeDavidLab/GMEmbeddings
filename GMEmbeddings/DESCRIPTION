@@ -1,11 +1,16 @@
 Package: GMEmbeddings
 Type: Package
-Title: *Put a better title here*
+Title: What the Package Does (one line, title case)
 Version: 0.1.0
-Author: Who wrote it
+Author: Christine Tataru, Austin Eaton
 Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
+Description: What the package does (one paragraph).
     Use four spaces when indenting paragraphs within the Description.
+Imports:
+    Biostrings,
+    rBLAST,
+    seqinr,
+    plyr
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true

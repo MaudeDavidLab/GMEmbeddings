@@ -1,1 +1,5 @@
 exportPattern("^[[:alpha:]]+")
+import(Biostrings)
+import(rBLAST)
+import(seqinr)
+import(plyr)

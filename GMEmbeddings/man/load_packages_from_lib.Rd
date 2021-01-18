@@ -8,7 +8,7 @@ Load Packages from Library
 ## Function loads the packages: Biostrings, rBLAST, seqinr, plyr, data.table
 }
 \usage{
-##  load_packages(x)
+##  load_packages_from_lib()
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -45,7 +45,7 @@ Load Packages from Library
 \examples{
 
 ## The function is currently defined as
-load_packages()
+load_packages_from_lib()
 {
   }
 }

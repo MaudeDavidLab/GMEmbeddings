@@ -3,7 +3,13 @@ load_packages_from_lib <- function(){
   library(rBLAST)
   library(seqinr)
   library(plyr)
-  library(data.table)
+  #library(data.table)
 }
 
 load_packages_from_lib()
+
+# library(Biostrings)
+# library(rBLAST)
+# library(seqinr)
+# library(plyr)
+# library(data.table)

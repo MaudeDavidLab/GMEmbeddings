@@ -59,7 +59,6 @@ getHitTransformation <- function(best_hits){
 #If this function is taking more than a few minutes to run, consider running BLAST externally
 #"$blast_software_dir/blastn" -db "$blast_db/embedding_db_.07" -query "$data_dir/repseqs.fasta" -out "$out_dir/blast_hits.tsv"  -outfmt "6 qseqid sseqid qseq sseq evalue bitscore length pident"
 #cat "$out_dir/blast_hits.tsv" | sort -k1,1 -k5,5g -k6,6nr | sort -u -k1,1 --merge > "$out_dir/best_hits.tsv"
-####<>####
 getBestHits <- function(blast_hits, id_thresh = 99){
   #save best hits per query ASV
   print("Filtering best hits from blast output")
