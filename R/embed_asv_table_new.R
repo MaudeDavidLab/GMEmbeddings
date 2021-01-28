@@ -2,7 +2,7 @@
 #' @export
 getExampleSeqtab <- function(){
   #seqtab <- utils::read.csv("data/test_files/seqtab_test.csv") ###############################################
-  seqtab <- utils::read.csv("seqtab_test.csv")
+  seqtab <- utils::read.csv("/Library/Frameworks/R.framework/Versions/4.0/Resources/library/GMEmbeddings/extdata/seqtab_test.csv")
   rownames(seqtab) <- seqtab$X
   rownames(seqtab) <- gsub("X", "", rownames(seqtab))
   seqtab <- seqtab[, 2:ncol(seqtab)]
@@ -34,8 +34,8 @@ getExampleSeqtab_Halfvarson <- function(){
 
 #' @export
 getExampleFasta <- function(){
-  #fasta_file <- "data/test_files/fasta_test.fasta"  #########################################################
-  fasta_file <- "fasta_test.fasta"
+  #fasta_file <- "/Library/Frameworks/R.framework/Versions/4.0/Resources/library/GMEmbeddings/extdata/fasta_test.fasta"  #########################################################
+  fasta_file <- "/Library/Frameworks/R.framework/Versions/4.0/Resources/library/GMEmbeddings/extdata/fasta_test.fasta"
   return(fasta_file)
 }
 
