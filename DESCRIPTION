@@ -7,8 +7,6 @@ Maintainer: The package maintainer <yourself@somewhere.net>
 Description: What the package does (one paragraph).
     Use four spaces when indenting paragraphs within the Description.
 Imports:
-    Biostrings,
-    rBLAST,
     seqinr,
     plyr
 License: What license is it under?
