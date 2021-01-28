@@ -1,8 +1,8 @@
 
 #' @export
 getExampleSeqtab <- function(){
-  #seqtab <- utils::read.csv("data/test_files/seqtab_test.csv") ###############################################
-  seqtab <- utils::read.csv("/Library/Frameworks/R.framework/Versions/4.0/Resources/library/GMEmbeddings/extdata/seqtab_test.csv")
+  #seqtab <- utils::read.csv("/Library/Frameworks/R.framework/Versions/4.0/Resources/library/GMEmbeddings/extdata/seqtab_test.csv")#######################
+  seqtab <- utils::read.csv(seqtab_file_name)
   rownames(seqtab) <- seqtab$X
   rownames(seqtab) <- gsub("X", "", rownames(seqtab))
   seqtab <- seqtab[, 2:ncol(seqtab)]
@@ -34,8 +34,7 @@ getExampleSeqtab_Halfvarson <- function(){
 
 #' @export
 getExampleFasta <- function(){
-  #fasta_file <- "/Library/Frameworks/R.framework/Versions/4.0/Resources/library/GMEmbeddings/extdata/fasta_test.fasta"  #########################################################
-  fasta_file <- "/Library/Frameworks/R.framework/Versions/4.0/Resources/library/GMEmbeddings/extdata/fasta_test.fasta"
+  fasta_file <- fasta_file_name
   return(fasta_file)
 }
 
@@ -127,7 +126,7 @@ embedSeqtab <- function(seqtab, fasta_file, best_hits, embedding_file_name){
 }
 
 
-EmbedAsvTable <- function(blast_hits, embedding_file_name){
+EmbedAsvTable <- function(seqtab_file_name, fasta_file_name, blast_hits, embedding_file_name){
 
   best_hits = getBestHits(blast_hits = blast_hits, id_thresh = 99)
 
