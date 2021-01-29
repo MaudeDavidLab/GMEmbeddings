@@ -4,6 +4,34 @@
 
 ## 1. Install package
 
+### Prerequisites
+
+Before installing this package, make sure that you have the required prerequisite packages already installed. These packages include `plyr` and `seqinr`.
+If not already installed, use:
+```
+install.packages(c("plyr", "seqinr"))
+```
+
+Also, before installing `GMEmbeddings`, load the `devtools` package:
+```
+library(devtools)
+```
+
+### Installing
+
+Download and install the `GMEmbeddings` package from GitHub:
+
+```
+install_git("https://github.com/austineaton/GMEmbeddings")
+```
+
+Now load the package:
+
+```
+library(GMEmbeddings)
+```
+
+
 ## 2. Select the embedding matrix you'd like to use. Standard is .07_100: 
 ```
 embedding_file_name <- system.file("extdata", "embed_.07_100dim.txt", package = "GMEmbeddings")
