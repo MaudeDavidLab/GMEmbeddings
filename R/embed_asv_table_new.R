@@ -127,7 +127,7 @@ transformSeqtab <- function(seqtab, fasta_file, best_hits){
 
 embedSeqtab <- function(seqtab, fasta_file, best_hits, embedding_file_name){
   seqtab_transformed <- transformSeqtab(seqtab = seqtab, fasta_file = fasta_file, best_hits = best_hits)
-  embedding_matrix <- qual_vecs[colnames(seqtab_transformed), ]
+  embedding_matrix <- embedding_matrix[colnames(seqtab_transformed), ]
   embedded <- as.matrix(seqtab_transformed) %*% as.matrix(embedding_matrix)
   return(embedded)
 }
