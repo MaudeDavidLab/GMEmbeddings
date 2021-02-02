@@ -32,11 +32,11 @@ getExampleSeqtab_Halfvarson <- function(){
 }
 
 
-#' @export
-getExampleFasta <- function(){
-  fasta_file <- fasta_file_name
-  return(fasta_file)
-}
+#' #' @export
+#' getExampleFasta <- function(){
+#'   fasta_file <- fasta_file_name
+#'   return(fasta_file)
+#' }
 
 # This function takes in the best_hits datatable from the blast output, and creates an asv by embedding database asv
 # matrix where each element is 1 over the number of hits for that ASV in the entire database. Instead of breaking ties arbitrarily
@@ -87,13 +87,13 @@ getEmbeddingHits <- function(fasta_file, blast_hits_file = NA, id_thresh = 99, o
 }
 
 
-getFastaDF <- function(fasta_file){
-  fasta <- read.fasta(fasta_file)
-  asv_ids <- names(fasta)
-  asv_seqs <- toupper(unlist(seqinr::getSequence(fasta, as.string = T)))
-  fasta_df <- data.frame(asv_ids, row.names = asv_seqs)
-  return(fasta_df)
-}
+# getFastaDF <- function(fasta_file){
+#   fasta <- read.fasta(fasta_file)
+#   asv_ids <- names(fasta)
+#   asv_seqs <- toupper(unlist(seqinr::getSequence(fasta, as.string = T)))
+#   fasta_df <- data.frame(asv_ids, row.names = asv_seqs)
+#   return(fasta_df)
+# }
 
 #For each query sequence, assigns the name of the closest embedding sequence. If there are multiple closest hits, splits the abundance
 #of the query sequence evenly among all closest hits
@@ -117,20 +117,26 @@ transformSeqtab <- function(seqtab, fasta_file, best_hits){
 }
 
 #' @export
+# embedSeqtab <- function(seqtab, fasta_file, best_hits, embedding_file_name){
+#   seqtab_transformed <- transformSeqtab(seqtab = seqtab, fasta_file = fasta_file, best_hits = best_hits)
+#   #qual_vecs <- read.csv(embedding_file_name, row.names=1, sep="")
+#   qual_vecs <- qual_vecs[colnames(seqtab_transformed), ]
+#   embedded <- as.matrix(seqtab_transformed) %*% as.matrix(qual_vecs)
+#   return(embedded)
+# }
+
 embedSeqtab <- function(seqtab, fasta_file, best_hits, embedding_file_name){
   seqtab_transformed <- transformSeqtab(seqtab = seqtab, fasta_file = fasta_file, best_hits = best_hits)
-  qual_vecs <- read.csv(embedding_file_name, row.names=1, sep="")
-  qual_vecs <- qual_vecs[colnames(seqtab_transformed), ]
-  embedded <- as.matrix(seqtab_transformed) %*% as.matrix(qual_vecs)
+  embedding_matrix <- qual_vecs[colnames(seqtab_transformed), ]
+  embedded <- as.matrix(seqtab_transformed) %*% as.matrix(embedding_matrix)
   return(embedded)
 }
-
 
 EmbedAsvTable <- function(seqtab, fasta_file_name, blast_hits, embedding_file_name){
 
   best_hits = getBestHits(blast_hits = blast_hits, id_thresh = 99)
 
-  seqtab <- embedSeqtab(getExampleSeqtab(), fasta_file = getExampleFasta(), best_hits = best_hits, embedding_file_name)
+  seqtab <- embedSeqtab(seqtab, fasta_file = getExampleFasta(), best_hits = best_hits, embedding_file_name)
 
   seqtab
 }
