@@ -32,8 +32,9 @@ library(GMEmbeddings)
 ```
 
 
-~~## 2. Select the embedding matrix you'd like to use. Standard is .07_100: ~~
 ## 2. Read in the embedding matrix you'd like to use. 
+Standard in .07_100
+
 ```
 embedding_matrix <- getEmbeddingMatrix("path to embedding matrix file")
 ```
@@ -50,6 +51,11 @@ fasta_file <- getExampleFasta("path to fasta file")
 
 ## 5.Run blast to align your sequences to the sequences in our embedding database. Here's how:
 ### 5a: install blast
+To install BLAST, follow instructions at the following link
+
+https://www.ncbi.nlm.nih.gov/books/NBK279671/ - automatic!
+[NCBI](https://www.ncbi.nlm.nih.gov/books/NBK279671/)
+
 ### 5b: download blastdb embdding sequences from cgrb: http://files.cgrb.oregonstate.edu/David_Lab/microbiome_embeddings/
 ### 5c: Align your sequences to those sequences ^. Here's how: *line from other comments*. It should look like this:
 ```
