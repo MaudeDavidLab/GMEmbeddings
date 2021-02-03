@@ -22,7 +22,7 @@ library(devtools)
 Download and install the `GMEmbeddings` package from GitHub:
 
 ```
-install_git("https://github.com/austineaton/GMEmbeddings")
+install_git("https://github.com/MaudeDavidLab/GMEmbeddings")
 ```
 
 Now load the package:
