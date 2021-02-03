@@ -1,6 +1,5 @@
 # GMEmbeddings
 
-## 0: Readme: will download a bunch of stuff
 
 ## 1. Install package
 
@@ -74,43 +73,10 @@ blast_db = ""
   ```
   blast_software_dir/blastn -db path_to_blast_db -query fasta.fasta -out output_file_name  -outfmt "6 qseqid sseqid qseq sseq evalue bitscore length pident"
   ```
-```
-#Instructions:
-#1. Download all files in the folder http://files.cgrb.oregonstate.edu/David_Lab/microbiome_embeddings/data/blastdb/. Set variable below equal to path name of the download on your machine
-blast_db = ""
-
-
-#2. Run blast to rename your sequences with the nearest sequence available in the embedding matrix
-blast_software_dir/blastn -db path_to_blast_db -query fasta.fasta -out output_file_name  -outfmt "6 qseqid sseqid qseq sseq evalue bitscore length pident"
-
-best_hits = getBestHits(blast_hits = output_file_name, id_thresh = 99)
-
-
-#3. Download the embedding transformation matrix from here: http://files.cgrb.oregonstate.edu/David_Lab/microbiome_embeddings/data/embed/embed_.07_100dim.txt
-#set the variable below to the file name on your local machine
-embedding_file_name = "C:/Users/ctata/Documents/Lab/GME/data/embed_matrices/embed_.07_100dim.txt"
-
-
-#4. Embed your data
-embedded = embedSeqtab(seqtab, best_hits, embedding_file_name)
-
-
-#Usage Example:
-#1. seqtab <- embedSeqtab(getExampleSeqtab(), fasta_file = getExampleFasta())
-
-#2. seqtab <- getExampleSeqtab_Halfvarson()
-#   seqtab_embed <- embedSeqtab(seqtab, "data/halfvarson/sequences.fasta")
-
-#3.
-
-#blast hits should have column names "qseqid"   "sseqid"   "qseq"     "sseq"     "evalue"   "bitscore"  "length"   "pident"
-#blast_hits <- read.delim("C:/Users/ctata/Documents/Lab/GME/data/halfvarson/best_hits.tsv", header=FALSE)
-#colnames(blast_hits) <- c("qseqid", "sseqid", "qseq", "sseq", "evalue", "bitscore", "length", "pident" )
-#seqtab <- getExampleSeqtab_Halfvarson()
-#seqtab_embedded <- embedSeqtab(seqtab = seqtab, fasta_file = "data/halfvarson/sequences.fasta", blast_hits = blast_hits)
-
-```
-
+  Then run the following command:
+  ```
+  best_hits = getBestHits(blast_hits = output_file_name, id_thresh = 99)
+  ```
 
 ## 6. Read in the hits from running blast. 
 ```
