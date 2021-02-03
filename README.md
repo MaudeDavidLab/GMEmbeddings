@@ -39,12 +39,12 @@ embedding_file_name <- system.file("extdata", "embed_.07_100dim.txt", package = 
 
 ## 3. Read in your sequence table. It should look like this:
 ```
-seqtab <- getExampleSeqtab()
+seqtab <- getExampleSeqtab("path to sequence table file")
 ```
 
 ## 4. Read in your fasta file. ID's should be ASV ids from the column names of your sequence table, and sequences should be the full length ASV sequence. It should look like this:
 ```
-fasta_file_name <- getExampleFasta()
+fasta_file_name <- getExampleFasta("path to fasta file")
 ```
 
 ## 5.Run blast to align your sequences to the sequences in our embedding database. Here's how:
@@ -97,4 +97,33 @@ blast_hits <- read.delim(system.file("extdata", "blast_hits.tsv", package = "GME
 ## 7. Embed your sequence table
 ```
 EmbedAsvTable(seqtab, fasta_file_name, blast_hits, embedding_file_name)
+```
+
+## Built in Example
+This package comes with example **seqtab**, **fasta_file**, **blast_hits**, and **embedding_file** for you to test.
+To access and read these files follow these instructions:
+
+# a. Read in blast_hits file
+```
+blast_hits <- getBlastHits(system.file("extdata", "blast_hits.tsv", package = "GMEmbeddings"))
+```
+
+# b. Read in embedding file
+```
+embedding_matrix <- getEmbeddingMatrix(system.file("extdata", "embed_.07_100dim.txt", package = "GMEmbeddings"))
+```
+
+# c. Read in sequence table file
+```
+seqtab <- getSeqtab(system.file("extdata", "seqtab_test.csv", package = "GMEmbeddings"))
+```
+
+# d. Read in fasta file
+```
+fasta_file <- getFasta(system.file("extdata", "fasta_test.fasta", package = "GMEmbeddings"))
+```
+
+# e. Embed the sequence table
+```
+EmbedAsvTable(seqtab, fasta_file, blast_hits, embedding_matrix)
 ```
