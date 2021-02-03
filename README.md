@@ -103,27 +103,27 @@ EmbedAsvTable(seqtab, fasta_file_name, blast_hits, embedding_file_name)
 This package comes with example **seqtab**, **fasta_file**, **blast_hits**, and **embedding_file** for you to test.
 To access and read these files follow these instructions:
 
-# a. Read in blast_hits file
+### a. Read in blast_hits file
 ```
 blast_hits <- getBlastHits(system.file("extdata", "blast_hits.tsv", package = "GMEmbeddings"))
 ```
 
-# b. Read in embedding file
+### b. Read in embedding file
 ```
 embedding_matrix <- getEmbeddingMatrix(system.file("extdata", "embed_.07_100dim.txt", package = "GMEmbeddings"))
 ```
 
-# c. Read in sequence table file
+### c. Read in sequence table file
 ```
 seqtab <- getSeqtab(system.file("extdata", "seqtab_test.csv", package = "GMEmbeddings"))
 ```
 
-# d. Read in fasta file
+### d. Read in fasta file
 ```
 fasta_file <- getFasta(system.file("extdata", "fasta_test.fasta", package = "GMEmbeddings"))
 ```
 
-# e. Embed the sequence table
+### e. Embed the sequence table
 ```
 EmbedAsvTable(seqtab, fasta_file, blast_hits, embedding_matrix)
 ```
