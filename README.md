@@ -48,9 +48,9 @@ fasta_file_name <- getExampleFasta("path to fasta file")
 ```
 
 ## 5.Run blast to align your sequences to the sequences in our embedding database. Here's how:
-## 5a: install blast
-## 5b: download blastdb embdding sequences from cgrb: http://files.cgrb.oregonstate.edu/David_Lab/microbiome_embeddings/
-## 5c: Align your sequences to those sequences ^. Here's how: *line from other comments*. It should look like this:
+### 5a: install blast
+### 5b: download blastdb embdding sequences from cgrb: http://files.cgrb.oregonstate.edu/David_Lab/microbiome_embeddings/
+### 5c: Align your sequences to those sequences ^. Here's how: *line from other comments*. It should look like this:
 ```
 #Instructions:
 #1. Download all files in the folder http://files.cgrb.oregonstate.edu/David_Lab/microbiome_embeddings/data/blastdb/. Set variable below equal to path name of the download on your machine
