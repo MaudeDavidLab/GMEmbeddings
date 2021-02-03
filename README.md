@@ -103,7 +103,7 @@ Please keep in mind that the arguments passed in to the `EmbedAsvTable` function
 
 ## Built in Example
 This package comes with example **seqtab**, **fasta_file**, **blast_hits**, and **embedding_file** for you to test.
-To access and read these files follow these instructions:
+To access and read these files follow the instructions below:
 
 a. Read in blast_hits file
 ```
