@@ -63,12 +63,7 @@ http://files.cgrb.oregonstate.edu/David_Lab/microbiome_embeddings/data/blastdb/
 
 ### 5c: Align your sequences to those sequences ^. Here's how: *line from other comments*. It should look like this:
 
-1. After you have downloaded all files from the previous link, set the variable below equal to the path name of the download on your machine.
-```
-blast_db = ""
-```
-
-2. Run BLAST to rename your sequence with the nearest sequence available in the embedding matrix.
+1. Run BLAST to rename your sequence with the nearest sequence available in the embedding matrix.
   Command should be similar to:
   ```
   blast_software_dir/blastn -db path_to_blast_db -query fasta.fasta -out output_file_name  -outfmt "6 qseqid sseqid qseq sseq evalue bitscore length pident"
