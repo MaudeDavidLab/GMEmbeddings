@@ -73,10 +73,6 @@ blast_db = ""
   ```
   blast_software_dir/blastn -db path_to_blast_db -query fasta.fasta -out output_file_name  -outfmt "6 qseqid sseqid qseq sseq evalue bitscore length pident"
   ```
-  Then run the following command:
-  ```
-  best_hits = getBestHits(blast_hits = output_file_name, id_thresh = 99)
-  ```
 
 ## 6. Read in the hits from running blast. 
 ```
