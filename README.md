@@ -113,3 +113,9 @@ e. Embed the sequence table
 ```
 EmbedAsvTable(seqtab, fasta_file, blast_hits, embedding_matrix)
 ```
+
+## Authors
+
+## License
+
+## Acknowledgments
