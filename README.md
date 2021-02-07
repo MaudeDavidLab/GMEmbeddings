@@ -65,13 +65,24 @@ http://files.cgrb.oregonstate.edu/David_Lab/microbiome_embeddings/data/blastdb/
 
 1. Run BLAST to rename your sequence with the nearest sequence available in the embedding matrix.
   Command should be similar to:
+ 
   ```
-  blast_software_dir/blastn -db path_to_blast_db -query fasta.fasta -out output_file_name  -outfmt "6 qseqid sseqid qseq sseq evalue bitscore length pident"
+  blast_software_dir/blastn -db path_to_blastdb_dir/embedding_db_.07 -query path_to_fasta_file -out output_file_name -outfmt "6 qseqid sseqid qseq sseq evalue bitscore length pident"
   ```
+An example that I would use on my own machine:
+```
+ncbi-blast-2.11.0+/bin/blastn -db blastdb/embedding_db_.07 -query fasta_test.fasta -out this_is_me_running_BLAST.tsv -outfmt "6 qseqid sseqid qseq sseq evalue bitscore length pident"
+```
+
 
 ## 6. Read in the hits from running blast. 
 ```
-blast_hits <- getBlastHits("path to blast hits file")
+blast_hits <- getBlastHits("path to blast hits file", header = FALSE)
+```
+
+We now need to add column names to our blast_hits file. To do this, use the following command:
+```
+colnames(blast_hits) <- c("qseqid", "sseqid", "qseq", "sseq", "evalue", "bitscore", "length", "pident")
 ```
 
 ## 7. Embed your sequence table
