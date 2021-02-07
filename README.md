@@ -117,5 +117,6 @@ Please keep in mind that the arguments passed in to the `EmbedAsvTable` function
 ## Authors
 
 ## License
+GPL-3.0-or-later
 
 ## Acknowledgments
