@@ -71,7 +71,7 @@ To install BLAST, follow instructions at the following link
 https://www.ncbi.nlm.nih.gov/books/NBK279671/ 
 [](https://www.ncbi.nlm.nih.gov/books/NBK279671/)
 
-### 5b: Download blastdb embdding sequences from CGRB: 
+### 5b: Download blastdb embedding sequences from CGRB: 
 The files can be found at: 
 
 http://files.cgrb.oregonstate.edu/David_Lab/microbiome_embeddings/data/blastdb/
