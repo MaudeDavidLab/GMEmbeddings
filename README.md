@@ -94,7 +94,7 @@ ncbi-blast-2.11.0+/bin/blastn -db blastdb/embedding_db_.07 -query fasta_test.fas
 
 ## 6. Read in the hits from running blast. 
 ```
-blast_hits <- getBlastHits("path to blast hits file", header = FALSE)
+blast_hits <- read.delim("path to blast hits file", header = FALSE)
 ```
 
 We now need to add column names to our blast_hits file. To do this, use the following command:
@@ -102,9 +102,9 @@ We now need to add column names to our blast_hits file. To do this, use the foll
 colnames(blast_hits) <- c("qseqid", "sseqid", "qseq", "sseq", "evalue", "bitscore", "length", "pident")
 ```
 
-If you would like to use the blast hits file that is preinstalled with the package, then use the following command. Please note that this file already has the column names added, and no other changes need to be done to it.
+If you would like to use the blast hits file that is preinstalled with the package, then use the following command. Please note that this file already has the column names added and no other changes need to be done.
 ```
-blast_hits <- getBlastHits(system.file("extdata", "blast_hits.tsv", package = "GMEmbeddings"))
+blast_hits <- read.delim(system.file("extdata", "blast_hits.tsv", package = "GMEmbeddings"))
 ```
 
 ## 7. Embed your sequence table
