@@ -1,4 +1,3 @@
-### Ahh! Why this no work?
 getExampleFasta <- function(fasta_file_name){
   fasta_file <- fasta_file_name
   return(fasta_file)

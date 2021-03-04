@@ -33,10 +33,10 @@ getExampleSeqtab_Halfvarson <- function(){
 
 
 #' #' @export
-#' getExampleFasta <- function(){
-#'   fasta_file <- fasta_file_name
-#'   return(fasta_file)
-#' }
+# getExampleFasta <- function(){
+#   fasta_file <- fasta_file_name
+#   return(fasta_file)
+# }
 
 # This function takes in the best_hits datatable from the blast output, and creates an asv by embedding database asv
 # matrix where each element is 1 over the number of hits for that ASV in the entire database. Instead of breaking ties arbitrarily
@@ -102,7 +102,7 @@ transformSeqtab <- function(seqtab, fasta_file, best_hits){
   #sample by ASV
   print('converting ids')
   #run if column names are in full sequence form. Don't run if the column names are ASV
-  #colnames(seqtab) <- convertIDs(ids = colnames(seqtab), from_id = "ASV", to_id = "embedIDs", fasta_file) #fasta should contain all sequences in seqtab
+  colnames(seqtab) <- convertIDs(ids = colnames(seqtab), from_id = "full_length_seq", to_id = "ASV_label", fasta_file) #fasta should contain all sequences in seqtab
   seqtab <- seqtab[, colnames(seqtab) %in% as.character(best_hits$qseqid)]
 
   # Split counts among all best hits
@@ -116,27 +116,41 @@ transformSeqtab <- function(seqtab, fasta_file, best_hits){
   return(seqtab_transformed)
 }
 
-#' @export
-# embedSeqtab <- function(seqtab, fasta_file, best_hits, embedding_file_name){
-#   seqtab_transformed <- transformSeqtab(seqtab = seqtab, fasta_file = fasta_file, best_hits = best_hits)
-#   #qual_vecs <- read.csv(embedding_file_name, row.names=1, sep="")
-#   qual_vecs <- qual_vecs[colnames(seqtab_transformed), ]
-#   embedded <- as.matrix(seqtab_transformed) %*% as.matrix(qual_vecs)
-#   return(embedded)
-# }
+###################
 
 embedSeqtab <- function(seqtab, fasta_file, best_hits, embedding_file_name){
   seqtab_transformed <- transformSeqtab(seqtab = seqtab, fasta_file = fasta_file, best_hits = best_hits)
+  embedding_matrix <- getEmbeddingMatrix(embedding_file_name)
   embedding_matrix <- embedding_matrix[colnames(seqtab_transformed), ]
   embedded <- as.matrix(seqtab_transformed) %*% as.matrix(embedding_matrix)
   return(embedded)
 }
 
+
+convertIDs <- function(ids, from_id, to_id, fasta_file){
+  fasta_list <- getFastaList(fasta_file)
+  if(from_id == "full_length_seq" && to_id == "ASV_label"){
+    fasta_df <- data.frame(fasta_list$embed_ids, row.names = fasta_list$seqs)
+  }
+  if(from_id == "ASV_label" && to_id == "full_length_seq"){
+    fasta_df <- data.frame(fasta_list$seqs, row.names = fasta_list$embed_ids)
+  }
+  return(as.character(fasta_df[ids, 1]))
+}
+
+getFastaList <- function(fasta_file){
+  fasta <- seqinr::read.fasta(fasta_file)
+  embed_ids <- names(fasta)
+  seqs <- toupper(unlist(getSequence(fasta, as.string = T)))
+  return(list(embed_ids = embed_ids, seqs=seqs))
+}
+
+
 EmbedAsvTable <- function(seqtab, fasta_file_name, blast_hits, embedding_file_name){
 
   best_hits = getBestHits(blast_hits = blast_hits, id_thresh = 99)
 
-  seqtab <- embedSeqtab(seqtab, fasta_file = getExampleFasta(), best_hits = best_hits, embedding_file_name)
+  seqtab <- embedSeqtab(seqtab, fasta_file = fasta_file_name, best_hits = best_hits, embedding_file_name)
 
   seqtab
 }
