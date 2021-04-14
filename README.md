@@ -53,7 +53,8 @@ An example sequence table can be obtained using the following command:
 seqtab <- getSeqtab(system.file("extdata", "seqtab_test.csv", package = "GMEmbeddings"))
 ```
 
-## 4. Pass in the full file name of your fasta file as a string. In the fasta file, ID's should be ASV ids from the column names of your sequence table, and sequences should be the full length ASV sequence. It should look like this:
+## 4. Pass in the full file name of your fasta file as a string. 
+In the fasta file, ID's should be ASV ids from the column names of your sequence table, and sequences should be the full length ASV sequence. It should look like this:
 ```
 fasta_file <- "path/to/fasta/file"
 ```
