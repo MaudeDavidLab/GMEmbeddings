@@ -111,7 +111,7 @@ blast_hits <- read.delim(system.file("extdata", "blast_hits.tsv", package = "GME
 ```
 EmbedAsvTable(seqtab, fasta_file, blast_hits, embedding_matrix)
 ```
-Please keep in mind that the arguments passed in to the `EmbedAsvTable` function must be named: **seqtab**, **fasta_file**, **blast_hits**, and **embedding_matrix**! If the names of these objects are saved as anything else the `EmbedAsvTable` function will not execute properly.
+<!---Please keep in mind that the arguments passed in to the `EmbedAsvTable` function must be named: **seqtab**, **fasta_file**, **blast_hits**, and **embedding_matrix**! If the names of these objects are saved as anything else the `EmbedAsvTable` function will not execute properly.--->
 
 
 ## Authors
