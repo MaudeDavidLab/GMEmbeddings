@@ -112,7 +112,7 @@ blast_hits <- read.delim(system.file("extdata", "blast_hits.tsv", package = "GME
 EmbedAsvTable(seqtab, fasta_file, blast_hits, embedding_matrix)
 ```
 <!---Please keep in mind that the arguments passed in to the `EmbedAsvTable` function must be named: **seqtab**, **fasta_file**, **blast_hits**, and **embedding_matrix**! If the names of these objects are saved as anything else the `EmbedAsvTable` function will not execute properly.--->
-
+Your Embedded ASV Table should now be displayed in the R console window. You can also save the output as an object in order to view it as a single table.
 
 ## Authors
 Christine Tataru
