@@ -1,34 +1,22 @@
-\name{EmbedAsvTable}
-\alias{EmbedAsvTable}
+\name{getBlastHits}
+\alias{getBlastHits}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-EmbedAsvTable
-
+getBlastHits
 %%  ~~function to do ... ~~
 }
 \description{
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-EmbedAsvTable(seqtab, fasta_file, blast_hits, embedding_matrix)
+getBlastHits(blast_hits_file)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{seqtab}{
-The \code{seqtab} argument needs to be an object. If not already an object, use the \code{getSeqtab} function to change the \code{seqtab} file into something that the \code{EmbedAsvTable} function can use as an argument.}
-
-  \item{fasta_file}{
-The \code{fasta_file} argument needs to be a string. This string will contain the full file name of your fasta file.
+  \item{blast_hits_file}{
+blast_hits_file should be a .tsv file obtained after aligning your sequences using BLAST
 }
-
-  \item{blast_hits}{
-  The \code{blast_hits} argument needs to be passed in as an object. If not an object, the \code{EmbedAsvTable} function will not work properly.
-  }
-  \item{embedding_matrix}{
-  The \code{embedding_matrix} argument needs to be passed in as a string. This string should contain the full file name of your embedding matrix.
-  }
 }
-
 \details{
 %%  ~~ If necessary, more details than the description above ~~
 }
@@ -55,16 +43,16 @@ The \code{fasta_file} argument needs to be a string. This string will contain th
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
+##---- Should be DIRECTLY executable !! ----
+##-- ==>  Define data, use random,
+##--	or do  help(data=index)  for the standard data sets.
 
 ## The function is currently defined as
-EmbedAsvTable <- function(seqtab, fasta_file_name, blast_hits, embedding_file_name){
-
-  best_hits = getBestHits(blast_hits = blast_hits, id_thresh = 99)
-
-  seqtab <- embedSeqtab(seqtab, fasta_file = fasta_file_name, best_hits = best_hits, embedding_file_name)
-
-  seqtab
-}
+function (blast_hits_file)
+{
+    blast_hits <- read.delim(blast_hits_file)
+    return(blast_hits)
+  }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory (show via RShowDoc("KEYWORDS")):
