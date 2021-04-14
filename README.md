@@ -31,16 +31,16 @@ library(GMEmbeddings)
 ```
 
 
-## 2. Read in the embedding matrix you'd like to use. 
+## 2. Pass in the full file name of the embedding matrix as a string. 
 Standard in .07_100
 
 ```
-embedding_matrix <- getEmbeddingMatrix("path to embedding matrix file")
+embedding_matrix <- "path/to/embedding/matrix/file"
 ```
 
 This package has an example embedding matrix for you to test if you like. It can be obtained using the following command:
 ```
-embedding_matrix <- getEmbeddingMatrix(system.file("extdata", "embed_.07_100dim.txt", package = "GMEmbeddings"))
+embedding_matrix <- system.file("extdata", "embed_.07_100dim.txt", package = "GMEmbeddings")
 ```
 
 ## 3. Read in your sequence table. It should look like this:
@@ -53,15 +53,15 @@ An example sequence table can be obtained using the following command:
 seqtab <- getSeqtab(system.file("extdata", "seqtab_test.csv", package = "GMEmbeddings"))
 ```
 
-## 4. Read in your fasta file. ID's should be ASV ids from the column names of your sequence table, and sequences should be the full length ASV sequence. It should look like this:
+## 4. Pass in the full file name of your fasta file as a string. In the fasta file, ID's should be ASV ids from the column names of your sequence table, and sequences should be the full length ASV sequence. It should look like this:
 ```
-fasta_file <- getExampleFasta("path to fasta file")
+fasta_file <- "path/to/fasta/file"
 ```
 
 
 An example fasta file can be obtained using the following command:
 ```
-fasta_file <- getFasta(system.file("extdata", "fasta_test.fasta", package = "GMEmbeddings"))
+fasta_file <- system.file("extdata", "fasta_test.fasta", package = "GMEmbeddings")
 ```
 
 ## 5.Run blast to align your sequences to the sequences in our embedding database. Here's how:
@@ -111,10 +111,13 @@ blast_hits <- read.delim(system.file("extdata", "blast_hits.tsv", package = "GME
 ```
 EmbedAsvTable(seqtab, fasta_file, blast_hits, embedding_matrix)
 ```
-Please keep in mind that the arguments passed in to the `EmbedAsvTable` function must be named: **seqtab**, **fasta_file**, **blast_hits**, and **embedding_file**! If the names of these objects are saved as anything else the `EmbedAsvTable` function will not execute properly.
+Please keep in mind that the arguments passed in to the `EmbedAsvTable` function must be named: **seqtab**, **fasta_file**, **blast_hits**, and **embedding_matrix**! If the names of these objects are saved as anything else the `EmbedAsvTable` function will not execute properly.
 
 
 ## Authors
+Christine Tataru
+
+Austin Eaton
 
 ## License
 GPL-3.0-or-later
