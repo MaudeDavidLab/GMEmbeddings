@@ -45,7 +45,7 @@ embedding_matrix <- system.file("extdata", "embed_.07_100dim.txt", package = "GM
 
 ## 3. Read in your sequence table. It should look like this:
 ```
-seqtab <- getExampleSeqtab("path to sequence table file")
+seqtab <- getSeqtab("path to sequence table file")
 ```
 
 An example sequence table can be obtained using the following command:
