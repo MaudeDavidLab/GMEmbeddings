@@ -32,7 +32,7 @@ library(GMEmbeddings)
 
 
 ## 2. Pass in the full file name of the embedding matrix as a string. 
-Standard in .07_100
+Standard is .07_100
 
 ```
 embedding_matrix <- "path/to/embedding/matrix/file"
