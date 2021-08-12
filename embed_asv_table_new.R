@@ -102,7 +102,7 @@ transformSeqtab <- function(seqtab, fasta_file, best_hits){
   #sample by ASV
   print('converting ids')
   #run if column names are in full sequence form. Don't run if the column names are ASV
-  colnames(seqtab) <- convertIDs(ids = colnames(seqtab), from_id = "full_length_seq", to_id = "ASV_label", fasta_file) #fasta should contain all sequences in seqtab
+  #colnames(seqtab) <- convertIDs(ids = colnames(seqtab), from_id = "full_length_seq", to_id = "ASV_label", fasta_file) #fasta should contain all sequences in seqtab
   seqtab <- seqtab[, colnames(seqtab) %in% as.character(best_hits$qseqid)]
 
   # Split counts among all best hits
