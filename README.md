@@ -1,3 +1,4 @@
+[BLASThits.pdf](https://github.com/MaudeDavidLab/GMEmbeddings/files/7047752/BLASThits.pdf)
 [SequenceTable.pdf](https://github.com/MaudeDavidLab/GMEmbeddings/files/7047698/SequenceTable.pdf)
 # GMEmbeddings
 
@@ -105,6 +106,8 @@ We now need to add column names to our blast_hits file. To do this, use the foll
 ```
 colnames(blast_hits) <- c("qseqid", "sseqid", "qseq", "sseq", "evalue", "bitscore", "length", "pident")
 ```
+
+<img width="500" alt="Screen Shot 2021-08-25 at 10 39 19 AM" src="https://user-images.githubusercontent.com/68047298/130811280-88875daa-bb60-4b39-aa1b-837532558855.png">
 
 If you would like to use the blast hits file that is preinstalled with the package, then use the following command. Please note that this file already has the column names added and no other changes need to be done.
 ```
