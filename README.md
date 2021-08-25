@@ -1,3 +1,4 @@
+<img width="1009" alt="Screen Shot 2021-08-25 at 10 32 06 AM" src="https://user-images.githubusercontent.com/68047298/130810454-6852a55a-5e1b-469f-b1d3-2ce774ce76ab.png">
 [SequenceTable.pdf](https://github.com/MaudeDavidLab/GMEmbeddings/files/7047698/SequenceTable.pdf)
 # GMEmbeddings
 
