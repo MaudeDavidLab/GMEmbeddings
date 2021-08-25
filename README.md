@@ -1,3 +1,4 @@
+[SequenceTable.pdf](https://github.com/MaudeDavidLab/GMEmbeddings/files/7047698/SequenceTable.pdf)
 # GMEmbeddings
 
 
