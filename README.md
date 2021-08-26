@@ -45,12 +45,12 @@ This package has an example embedding matrix for you to test if you like. It can
 embedding_matrix <- system.file("extdata", "embed_.07_100dim.txt", package = "GMEmbeddings")
 ```
 
-## 3. Read in your sequence table. It should look like this:
+## 3. Read in your sequence table. 
+Read in your sequence table file and save it as an object called `seqtab`. Different methods may be used depending on what type of file format you have.
+After being read in the sequence table should look like this:
+
 <img width="500" alt="Screen Shot 2021-08-25 at 10 32 06 AM" src="https://user-images.githubusercontent.com/68047298/130810454-6852a55a-5e1b-469f-b1d3-2ce774ce76ab.png">
 
-```
-seqtab <- read.csv("path to sequence table file")
-```
 
 An example sequence table can be obtained using the following command:
 ```
