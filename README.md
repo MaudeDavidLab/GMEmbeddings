@@ -57,7 +57,7 @@ An example sequence table can be obtained using the following command:
 seqtab <- getSeqtab(system.file("extdata", "seqtab_test.csv", package = "GMEmbeddings"))
 ```
 
-## 4. Pass in the full file name of your fasta file as a string. 
+<!--- ## 4. Pass in the full file name of your fasta file as a string. 
 In the fasta file, ID's should be ASV ids from the column names of your sequence table, and sequences should be the full length ASV sequence. It should look like this:
 ```
 fasta_file <- "path/to/fasta/file"
@@ -68,21 +68,21 @@ An example fasta file can be obtained using the following command:
 ```
 fasta_file <- system.file("extdata", "fasta_test.fasta", package = "GMEmbeddings")
 ```
-
-## 5.Run blast to align your sequences to the sequences in our embedding database. Here's how:
-### 5a: install blast
+--->
+## 4.Run blast to align your sequences to the sequences in our embedding database. Here's how:
+### 4a: install blast
 To install BLAST, follow instructions at the following link
 
 https://www.ncbi.nlm.nih.gov/books/NBK279671/ 
 [](https://www.ncbi.nlm.nih.gov/books/NBK279671/)
 
-### 5b: Download blastdb embedding sequences from CGRB: 
+### 4b: Download blastdb embedding sequences from CGRB: 
 The files can be found at: 
 
 http://files.cgrb.oregonstate.edu/David_Lab/microbiome_embeddings/data/blastdb/
 [](http://files.cgrb.oregonstate.edu/David_Lab/microbiome_embeddings/data/blastdb/)
 
-### 5c: Align your sequences to those sequences from 5b. Here is how:
+### 4c: Align your sequences to those sequences from 5b. Here is how:
 
 Run BLAST to rename your sequence with the nearest sequence available in the embedding matrix.
   Command should be similar to:
