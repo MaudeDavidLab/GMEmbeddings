@@ -1,5 +1,35 @@
+#' #' @export
+#' getExampleSeqtab <- function(){
+#'   seqtab <- utils::read.csv(seqtab)
+#'   rownames(seqtab) <- seqtab$X
+#'   rownames(seqtab) <- gsub("X", "", rownames(seqtab))
+#'   seqtab <- seqtab[, 2:ncol(seqtab)]
+#'   return(seqtab)
+#' }
+#' 
+#' getExampleSeqtab_AG <- function(){
+#'   seqtab <- data.table::fread("data/seqtab_final_filter.07.txt", header = F, sep = '\t')
+#'   seqs <- scan("data/sequences_.07.txt", what = character())
+#'   seqtab <- as.data.frame(seqtab)
+#'   rownames(seqtab) <- seqtab$V1
+#'   rownames(seqtab) <- gsub("X", "", rownames(seqtab))
+#'   seqtab <- seqtab[, 2:ncol(seqtab)]
+#'   colnames(seqtab) <- seqs
+#' }
+#' 
+#' getExampleSeqtab_Halfvarson <- function(){
+#'   seqtab <- data.table::fread("data/halfvarson/seqtab.txt", header = F, sep = '\t')
+#'   fasta <- seqinr::read.fasta("data/halfvarson/sequences.fasta")
+#'   seqs <- toupper(unlist(seqinr::getSequence(fasta, as.string = T)))
+#'   seqtab <- as.data.frame(seqtab)
+#'   rownames(seqtab) <- seqtab$V1
+#'   rownames(seqtab) <- gsub("X", "", rownames(seqtab))
+#'   seqtab <- seqtab[, 2:ncol(seqtab)]
+#'   colnames(seqtab) <- seqs
+#'   return(seqtab)
+#' }
 
-#' @export
+
 # This function takes in the best_hits datatable from the blast output, and creates an asv by embedding database asv
 # matrix where each element is 1 over the number of hits for that ASV in the entire database. Instead of breaking ties arbitrarily
 # we allow each ASV to hit multiple embedding ASV
@@ -34,6 +64,19 @@ getBestHits <- function(blast_hits, id_thresh = 99){
   return(best_hits)
 }
 
+# getEmbeddingHits <- function(fasta_file, blast_hits_file = NA, id_thresh = 99, out_dir = "data/blast_output/"){
+#   if(is.na(blast_hits_file)){
+#     runBlast(fasta_file = fasta_file, out_dir = out_dir)
+#     blast_hits_file = file.path(out_dir, "blast_hits.tsv")
+#     blast_hits <- read.delim(blast_hits_file, header= TRUE, sep = "\t")
+#   }
+#   else{
+#     blast_hits <- read.delim(blast_hits_file, header = TRUE, sep = "\t")
+#   }
+#   return(getBestHits(blast_hits))
+# }
+
+
 #For each query sequence, assigns the name of the closest embedding sequence. If there are multiple closest hits, splits the abundance
 #of the query sequence evenly among all closest hits
 transformSeqtab <- function(seqtab, best_hits){
@@ -57,16 +100,44 @@ transformSeqtab <- function(seqtab, best_hits){
 ###################
 
 embedSeqtab <- function(seqtab, best_hits, embedding_file_name){
-  seqtab_transformed <- seqtab
-    # transformSeqtab(seqtab = seqtab, best_hits = best_hits)
+  seqtab_transformed <- transformSeqtab(seqtab = seqtab, best_hits = best_hits)
   embedding_matrix <- getEmbeddingMatrix(embedding_file_name)
   embedding_matrix <- embedding_matrix[colnames(seqtab_transformed), ]
   embedded <- as.matrix(seqtab_transformed) %*% as.matrix(embedding_matrix)
   return(embedded)
 }
 
+
+# convertIDs <- function(ids, from_id, to_id, fasta_file){
+#   fasta_list <- getFastaList(fasta_file)
+#   if(from_id == "full_length_seq" && to_id == "ASV_label"){
+#     fasta_df <- data.frame(fasta_list$embed_ids, row.names = fasta_list$seqs)
+#   }
+#   if(from_id == "ASV_label" && to_id == "full_length_seq"){
+#     fasta_df <- data.frame(fasta_list$seqs, row.names = fasta_list$embed_ids)
+#   }
+#   return(as.character(fasta_df[ids, 1]))
+# }
+# 
+# getFastaList <- function(fasta_file){
+#   fasta <- seqinr::read.fasta(fasta_file)
+#   embed_ids <- names(fasta)
+#   seqs <- toupper(unlist(getSequence(fasta, as.string = T)))
+#   return(list(embed_ids = embed_ids, seqs=seqs))
+# }
+
+
 EmbedAsvTable <- function(seqtab, blast_hits, embedding_file_name){
   best_hits = getBestHits(blast_hits = blast_hits, id_thresh = 99)
   seqtab <- embedSeqtab(seqtab, best_hits = best_hits, embedding_file_name)
   seqtab
 }
+
+#Read in the dataframe blast_hits from that data folder
+#blast_hits <- read.delim("data/blast_output/blast_hits.tsv")
+
+#Set the variable embedding_file_name to be the file path (string) of the embedding transformation matrix
+#embedding_file_name <- "data/embed_matrices/embed_.07_100dim.txt"
+
+#Call you function
+#EmbedAsvTable(blast_hits, embedding_file_name)
