@@ -54,7 +54,7 @@ After being read in the sequence table should look like this:
 
 An example sequence table can be obtained using the following command:
 ```
-seqtab <- getSeqtab(system.file("extdata", "seqtab_test.csv", package = "GMEmbeddings"))
+seqtab <- read.csv(system.file("extdata", "seqtab_test.csv", package = "GMEmbeddings"))
 ```
 
 <!--- ## 4. Pass in the full file name of your fasta file as a string. 
