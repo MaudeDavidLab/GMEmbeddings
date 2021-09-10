@@ -33,16 +33,16 @@ library(GMEmbeddings)
 ```
 
 
-## 2. Pass in the full file name of the embedding matrix as a string. 
+## 2. Pass in the filepath to the embedding matrix  as a string. 
 Standard is .07_100
 
 ```
-embedding_matrix <- "path/to/embedding/matrix/file"
+embedding_filepath <- "path/to/embedding/matrix/file"
 ```
 
 This package has an example embedding matrix for you to test if you like. It can be obtained using the following command:
 ```
-embedding_matrix <- system.file("extdata", "embed_.07_100dim.txt", package = "GMEmbeddings")
+embedding_filepath <- system.file("extdata", "embed_.07_100dim.txt", package = "GMEmbeddings")
 ```
 
 ## 3. Read in your sequence table. 
