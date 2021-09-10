@@ -101,6 +101,10 @@ ncbi-blast-2.11.0+/bin/blastn -db blastdb/embedding_db_.07 -query fasta_test.fas
 ```
 blast_hits <- read.delim("path to blast hits file", header = FALSE)
 ```
+An example file can be read in
+```
+blast_hits <- read.delim(system.file("extdata", "blast_hits.tsv", package = "GMEmbeddings"), header = FALSE)
+```
 
 We now need to add column names to our blast_hits file. To do this, use the following command:
 ```
