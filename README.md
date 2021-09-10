@@ -113,10 +113,6 @@ colnames(blast_hits) <- c("qseqid", "sseqid", "qseq", "sseq", "evalue", "bitscor
 
 <img width="500" alt="Screen Shot 2021-08-25 at 10 39 19 AM" src="https://user-images.githubusercontent.com/68047298/130811280-88875daa-bb60-4b39-aa1b-837532558855.png">
 
-If you would like to use the blast hits file that is preinstalled with the package, then use the following command. Please note that this file already has the column names added and no other changes need to be done.
-```
-blast_hits <- read.delim(system.file("extdata", "blast_hits.tsv", package = "GMEmbeddings"))
-```
 
 ## 7. Embed your sequence table
 ```
