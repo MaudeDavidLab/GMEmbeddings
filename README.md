@@ -46,7 +46,7 @@ embedding_filepath <- system.file("extdata", "embed_.07_100dim.txt", package = "
 ```
 
 ## 3. Read in your sequence table. 
-Read in your sequence table file and save it as an object called `seqtab`. Different methods may be used depending on what type of file format you have.
+Read in your sequence table file. Different methods may be used depending on what type of file format you have.
 After being read in the sequence table should look like this:
 
 <img width="500" alt="Screen Shot 2021-08-25 at 10 32 06 AM" src="https://user-images.githubusercontent.com/68047298/130810454-6852a55a-5e1b-469f-b1d3-2ce774ce76ab.png">
@@ -103,7 +103,7 @@ blast_hits <- read.delim("path to blast hits file", header = FALSE)
 ```
 An example file can be read in
 ```
-blast_hits <- read.delim(system.file("extdata", "blast_hits.tsv", package = "GMEmbeddings"), header = FALSE)
+blast_hits <- read.delim(system.file("extdata", "blast_hits.tsv", package = "GMEmbeddings"))
 ```
 
 We now need to add column names to our blast_hits file. To do this, use the following command:
