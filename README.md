@@ -99,7 +99,7 @@ ncbi-blast-2.11.0+/bin/blastn -db blastdb/embedding_db_.07 -query fasta_test.fas
 
 ## 6. Read in the hits from running blast. 
 ```
-blast_hits <- read.delim("path to blast hits file", header = FALSE)
+blast_hits <- read.delim("path to blast hits file", header = FALSE, sep = " ")
 ```
 An example file can be read in
 ```
