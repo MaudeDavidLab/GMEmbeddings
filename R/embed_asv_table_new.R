@@ -127,9 +127,9 @@ embedSeqtab <- function(seqtab, best_hits, embedding_matrix){
 # }
 
 
-EmbedAsvTable <- function(seqtab, blast_hits, embedding_file_name){
+EmbedAsvTable <- function(seqtab, blast_hits, embedding_matrix){
   best_hits = getBestHits(blast_hits = blast_hits, id_thresh = 99)
-  seqtab <- embedSeqtab(seqtab, best_hits = best_hits, embedding_file_name)
+  seqtab <- embedSeqtab(seqtab, best_hits = best_hits, embedding_matrix)
   seqtab
 }
 
