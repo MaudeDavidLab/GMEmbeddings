@@ -99,9 +99,9 @@ transformSeqtab <- function(seqtab, best_hits){
 
 ###################
 
-embedSeqtab <- function(seqtab, best_hits, embedding_file_name){
+embedSeqtab <- function(seqtab, best_hits, embedding_matrix){
   seqtab_transformed <- transformSeqtab(seqtab = seqtab, best_hits = best_hits)
-  embedding_matrix <- getEmbeddingMatrix(embedding_file_name)
+  #embedding_matrix <- getEmbeddingMatrix(embedding_file_name)
   embedding_matrix <- embedding_matrix[colnames(seqtab_transformed), ]
   embedded <- as.matrix(seqtab_transformed) %*% as.matrix(embedding_matrix)
   return(embedded)
