@@ -118,7 +118,7 @@ colnames(blast_hits) <- c("qseqid", "sseqid", "qseq", "sseq", "evalue", "bitscor
 ```
 EmbedAsvTable(seqtab, blast_hits, embedding_matrix)
 ```
-Please keep in mind that the column names of the seqtab MUST match the qseqid in the blast_hits file! If they do not match patterns, the `EmbedAsvTable` function will not execute properly.
+Please keep in mind that the column names of the seqtab MUST match the qseqid in the blast_hits file! If they do not match patterns, the `EmbedAsvTable` function will output a matrix of all 0s.
 Your Embedded ASV Table should now be displayed in the R console window. You can also save the output as an object in order to view it as a single table.
 
 ## Authors
