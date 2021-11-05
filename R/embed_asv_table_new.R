@@ -83,7 +83,15 @@ transformSeqtab <- function(seqtab, best_hits){
   
   #sample by ASV
   print('converting ids')
-  #run if column names are in full sequence form. Don't run if the column names are ASV
+  
+  num_seqs_aligned <- sum(colnames(seqtab) %in% as.character(best_hits$qseqid))
+  percent_seqs_aligned <- num_seqs_aligned / ncol(seqtab)
+  cat("Number of sequences from query dataset that aligned: ", num_seqs_aligned, "\n")
+  cat("Percent of sequences from query dataset that aligned: ", percent_seqs_aligned, "\n")
+  
+  if(num_seqs_aligned == 0){
+    stop("No reads aligned to database. Check that column names of sequence table are ids, and match the queryid column of blast_hits")
+  }
   seqtab <- seqtab[, colnames(seqtab) %in% as.character(best_hits$qseqid)]
   
   # Split counts among all best hits
