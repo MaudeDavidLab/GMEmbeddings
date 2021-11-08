@@ -106,16 +106,6 @@ transformSeqtab <- function(seqtab, best_hits){
 }
 
 ###################
-
-embedSeqtab <- function(seqtab, best_hits, embedding_matrix){
-  seqtab_transformed <- transformSeqtab(seqtab = seqtab, best_hits = best_hits)
-  #embedding_matrix <- getEmbeddingMatrix(embedding_file_name)
-  embedding_matrix <- embedding_matrix[colnames(seqtab_transformed), ]
-  embedded <- as.matrix(seqtab_transformed) %*% as.matrix(embedding_matrix)
-  return(embedded)
-}
-
-
 # convertIDs <- function(ids, from_id, to_id, fasta_file){
 #   fasta_list <- getFastaList(fasta_file)
 #   if(from_id == "full_length_seq" && to_id == "ASV_label"){
@@ -137,7 +127,12 @@ embedSeqtab <- function(seqtab, best_hits, embedding_matrix){
 
 EmbedAsvTable <- function(seqtab, blast_hits, embedding_matrix, id_thresh = 99){
   best_hits = getBestHits(blast_hits = blast_hits, id_thresh = id_thresh)
-  seqtab <- embedSeqtab(seqtab, best_hits = best_hits, embedding_matrix)
+  
+  # There are just a hand ful of sequences that got thrown away during the embedding process, so are present in the best_hits hits column, but not the embedding matrix itself
+  best_hits <- best_hits[best_hits$sseqid %in% rownames(embedding_matrix), ]
+  seqtab_transformed <- transformSeqtab(seqtab = seqtab, best_hits = best_hits)
+  embedding_matrix <- embedding_matrix[colnames(seqtab_transformed), ]
+  embedded <- as.matrix(seqtab_transformed) %*% as.matrix(embedding_matrix)
   seqtab
 }
 
