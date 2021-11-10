@@ -8,13 +8,13 @@ output: html_document
 #install.packages("devtools")
 library(devtools)
 library(dplyr)
-#install_git("https://github.com/MaudeDavidLab/GMEmbeddings", branch = "dev")
+install_git("https://github.com/MaudeDavidLab/GMEmbeddings", ref = "master")
 library(GMEmbeddings)
 ```
 
 # Set a directory where your data is stored
 ```{r}
-data_dir <- "inst/extdata/test_dataset_1/pilot/"
+data_dir <- "inst/extdata/test_dataset_1/"
 ```
 
 # Read in your count table. Make sure it is sample x ASVs
@@ -29,7 +29,6 @@ fasta <- read.table(paste0(data_dir,"repseqs.fasta"), quote="\"", comment.char="
 seqs <- fasta$V1[seq(2, nrow(fasta), 2)]
 ids <- gsub(">", "", fasta$V1[seq(1, nrow(fasta), 2)])
 colnames(seqtab) <- ids
-print(head(seqtab))
 ```
 
 # Read your blast hits file in, and assign column names. Check the dimensions
@@ -41,7 +40,8 @@ print(dim(blast_hits))
 
 # Filter to keep only the best blast hits per query sequence. You may also do this in bash for improved speed
 ```{r}
-best_hits = getBestHits(blast_hits = blast_hits, id_thresh = 99)
+id_thresh = 99 #consider hits where the percent identity to the query sequence is 99% or higher
+best_hits = getBestHits(blast_hits = blast_hits, id_thresh = id_thresh)
 ```
 
 # Calculate stats on how many query sequences were aligned and how many embedding sequences were hit.
@@ -51,7 +51,8 @@ aligned = best_hits %>% group_by(qseq) %>% summarize(num_aligned = n())
 
 # If you want, drop query sequences if they have too many embedding hits. You set this threshold.
 ```{r}
-drop_seqs <- aligned$qseq[aligned$num_aligned > 50]
+threshold <- 50
+drop_seqs <- aligned$qseq[aligned$num_aligned > threshold]
 best_hits <- best_hits[!(best_hits$qseq %in% drop_seqs), ]
 aligned = best_hits %>% group_by(qseq) %>% summarize(num_aligned = n())
 cat("Median embedding sequences hit: ", median(aligned$num_aligned), "\n")
@@ -71,8 +72,8 @@ dev.off()
 # Read in embedding matrix from the files provided. You chose the final number of dimensions for your data here, by changing the file name.
 Make sure you use a file called 'glove_emb_id' and NOT 'glove_emb_fullseq'. The package uses ids to match alignment within the blast_hits file, and will not work if provided an embedding matrix with nucleotide sequences instead of id numbers
 ```{r}
-embedding_filepath <- "inst/extdata/embedding_matrices/glove_emb_id_50.txt"
-embedding_matrix <- read.csv(embedding_filepath, row.names = 1, sep = "")
+embedding_filepath <- system.file("extdata/embedding_transformation_matrices/", "glove_emb_id_50.txt", package = "GMEmbeddings")
+embedding_matrix <- read.delim(embedding_filepath, row.names = 1, sep = "\t")
 embedding_matrix <- embedding_matrix[rownames(embedding_matrix) != "<unk>", ]
 ```
 
