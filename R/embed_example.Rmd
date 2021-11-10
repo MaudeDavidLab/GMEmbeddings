@@ -1,0 +1,90 @@
+---
+title: "embed_example"
+output: html_document
+---
+
+# Load or install necessary packages
+```{r}
+#install.packages("devtools")
+library(devtools)
+library(dplyr)
+#install_git("https://github.com/MaudeDavidLab/GMEmbeddings", branch = "dev")
+library(GMEmbeddings)
+```
+
+# Set a directory where your data is stored
+```{r}
+data_dir <- "inst/extdata/test_dataset_1/pilot/"
+```
+
+# Read in your count table. Make sure it is sample x ASVs
+```{r}
+seqtab <- read.csv(paste0(data_dir, "asv_table.csv"), row.names = 1)
+seqtab <- t(seqtab)
+```
+
+# If you have full ASV nucleotide sequences as column names, change them to ASV ids using your corresponding fasta file
+```{r}
+fasta <- read.table(paste0(data_dir,"repseqs.fasta"), quote="\"", comment.char="")
+seqs <- fasta$V1[seq(2, nrow(fasta), 2)]
+ids <- gsub(">", "", fasta$V1[seq(1, nrow(fasta), 2)])
+colnames(seqtab) <- ids
+print(head(seqtab))
+```
+
+# Read your blast hits file in, and assign column names. Check the dimensions
+```{r}
+blast_hits <- read.delim(paste0(data_dir,"best_hits.tsv"), header = FALSE, sep = " ")
+colnames(blast_hits) <- c("qseqid", "sseqid", "qseq", "sseq", "evalue", "bitscore", "length", "pident")
+print(dim(blast_hits))
+```
+
+# Filter to keep only the best blast hits per query sequence. You may also do this in bash for improved speed
+```{r}
+best_hits = getBestHits(blast_hits = blast_hits, id_thresh = 99)
+```
+
+# Calculate stats on how many query sequences were aligned and how many embedding sequences were hit.
+```{r}
+aligned = best_hits %>% group_by(qseq) %>% summarize(num_aligned = n())
+```
+
+# If you want, drop query sequences if they have too many embedding hits. You set this threshold.
+```{r}
+drop_seqs <- aligned$qseq[aligned$num_aligned > 50]
+best_hits <- best_hits[!(best_hits$qseq %in% drop_seqs), ]
+aligned = best_hits %>% group_by(qseq) %>% summarize(num_aligned = n())
+cat("Median embedding sequences hit: ", median(aligned$num_aligned), "\n")
+cat("Mean embedding sequences hit: ", mean(aligned$num_aligned), "\n")
+cat("Max embedding sequences hit: ", max(aligned$num_aligned), "\n")
+```
+
+# Plot histogram of the above alignment statistics
+```{r}
+svg(file= paste0(data_dir, "embedding_sequences_hit.svg"))
+hist(aligned$num_aligned, breaks = 40, 
+     main = "Number of embedding sequences hit by Pilot sequences",
+     xlab = "# embedding seqs hit")
+dev.off()
+```
+
+# Read in embedding matrix from the files provided. You chose the final number of dimensions for your data here, by changing the file name.
+Make sure you use a file called 'glove_emb_id' and NOT 'glove_emb_fullseq'. The package uses ids to match alignment within the blast_hits file, and will not work if provided an embedding matrix with nucleotide sequences instead of id numbers
+```{r}
+embedding_filepath <- "inst/extdata/embedding_matrices/glove_emb_id_50.txt"
+embedding_matrix <- read.csv(embedding_filepath, row.names = 1, sep = "")
+embedding_matrix <- embedding_matrix[rownames(embedding_matrix) != "<unk>", ]
+```
+
+# Embed data
+```{r}
+embedded<- EmbedAsvTable(seqtab, best_hits, embedding_matrix, id_thresh = id_thresh)
+colnames(embedded) <- seq(1, ncol(embedded))
+```
+
+# Save final table
+```{r}
+out_filepath <- paste0(data_dir, "embedded_50.csv")
+write.csv(embedded, out_filepath, quote = F)
+```
+
