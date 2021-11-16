@@ -131,6 +131,7 @@ EmbedAsvTable <- function(seqtab, blast_hits, embedding_matrix, id_thresh = 99){
   # There are just a hand ful of sequences that got thrown away during the embedding process, so are present in the best_hits hits column, but not the embedding matrix itself
   best_hits <- best_hits[best_hits$sseqid %in% rownames(embedding_matrix), ]
   seqtab_transformed <- transformSeqtab(seqtab = seqtab, best_hits = best_hits)
+  seqtab_transformed <- seqtab_transformed[ , colnames(seqtab_transformed) %in% rownames(embedding_matrix)]
   embedding_matrix <- embedding_matrix[colnames(seqtab_transformed), ]
   embedded <- as.matrix(seqtab_transformed) %*% as.matrix(embedding_matrix)
   seqtab
