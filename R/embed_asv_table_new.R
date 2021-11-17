@@ -134,7 +134,7 @@ EmbedAsvTable <- function(seqtab, blast_hits, embedding_matrix, id_thresh = 99){
   seqtab_transformed <- seqtab_transformed[ , colnames(seqtab_transformed) %in% rownames(embedding_matrix)]
   embedding_matrix <- embedding_matrix[colnames(seqtab_transformed), ]
   embedded <- as.matrix(seqtab_transformed) %*% as.matrix(embedding_matrix)
-  seqtab
+  return(embedded)
 }
 
 #Read in the dataframe blast_hits from that data folder
