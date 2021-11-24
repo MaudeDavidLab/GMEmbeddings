@@ -102,7 +102,7 @@ transformSeqtab <- function(seqtab, best_hits){
   colnames(seqtab) == rownames(asv2embed_short)
   
   seqtab_transformed <- as.matrix(seqtab) %*% as.matrix(asv2embed_short)
-  return(seqtab_transformed)
+  return(list(seqtab_transformed, num_seqs_aligned, percent_seqs_aligned))
 }
 
 ###################
@@ -130,11 +130,14 @@ EmbedAsvTable <- function(seqtab, blast_hits, embedding_matrix, id_thresh = 99){
   
   # There are just a hand ful of sequences that got thrown away during the embedding process, so are present in the best_hits hits column, but not the embedding matrix itself
   best_hits <- best_hits[best_hits$sseqid %in% rownames(embedding_matrix), ]
-  seqtab_transformed <- transformSeqtab(seqtab = seqtab, best_hits = best_hits)
+  tmp <- transformSeqtab(seqtab = seqtab, best_hits = best_hits)
+  seqtab_transformed <- tmp[[1]]
+  num_seqs_aligned <- tmp[[2]]
+  percent_seqs_aligned <- tmp[[3]]
   seqtab_transformed <- seqtab_transformed[ , colnames(seqtab_transformed) %in% rownames(embedding_matrix)]
   embedding_matrix <- embedding_matrix[colnames(seqtab_transformed), ]
   embedded <- as.matrix(seqtab_transformed) %*% as.matrix(embedding_matrix)
-  return(embedded)
+  return(list(embedded, num_seqs_aligned, percent_seqs_aligned))
 }
 
 #Read in the dataframe blast_hits from that data folder
