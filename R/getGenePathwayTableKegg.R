@@ -84,6 +84,9 @@ getMaxCorr <- function(embed_table, pathway_table){
 getPathwayCorrelationMatrix <- function(embed){
   asv_by_pathway <- readRDS("inst/extdata/pathways/asv_by_pathway.rds")
   
+  # Center
+  embed <- apply(embed, 2, function(x) return((x - mean(x) ) / sd(x)))
+  
   # Align ASVs between embedding transformation matrix and asv x pathway table
   asvs <- intersect(rownames(embed), rownames(asv_by_pathway))
   embed <- embed[asvs, ]
@@ -96,11 +99,14 @@ getPathwayCorrelationMatrix <- function(embed){
 }
 
 #' @export
-getHeatmap <- function(corrmat){
-  full_names <- lapply(colnames(corrmat), function(x){ return(keggGet(x)[[1]]$NAME)})
-  plot_names <- paste(colnames(corrmat), full_names, sep = ": ")
-  
-  fig <- plot_ly(z = as.matrix(corrmat), type = "heatmap", y = rownames(corrmat), x = plot_names)
+getHeatmap <- function(corrmat, pathway_full_names = F){
+  if(pathway_full_names){
+    full_names <- lapply(colnames(corrmat), function(x){ return(keggGet(x)[[1]]$NAME)})
+    plot_names <- paste(colnames(corrmat), full_names, sep = ": ")
+  }
+  rownames(corrmat) <- paste("DIM ", seq(1, nrow(corrmat)))
+  fig <- pheatmap(corrmat, cluster_rows = F, color = viridis(50), fontsize_col = 9)
+  #fig <- plot_ly(z = as.matrix(corrmat), type = "heatmap", y = rownames(corrmat), x = plot_names)
   return(fig)
 }
 
