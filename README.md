@@ -3,7 +3,39 @@
 # GMEmbeddings
 # See embed_example.Rmd as well
 
-## 1. Install package
+## 1. Run BLAST to align your sequences against embeddings sequences.
+### 1a: install blast
+To install BLAST, follow instructions at the following link
+
+https://www.ncbi.nlm.nih.gov/books/NBK279671/ 
+[](https://www.ncbi.nlm.nih.gov/books/NBK279671/)
+
+### 1b: Download blastdb embedding sequences: 
+The files can be found at: 
+
+http://files.cgrb.oregonstate.edu/David_Lab/microbiome_embeddings/blastdb_fullseq//
+[](http://files.cgrb.oregonstate.edu/David_Lab/microbiome_embeddings/blastdb_fullseq//)
+
+### 1c: Align your sequences to the database sequences. Here is how:
+
+Run BLAST to rename your sequence with the nearest sequence available in the embedding matrix.
+  Command should be similar to:
+ 
+  ```
+  blast_software_dir/blastn -db path_to_blastdb_dir/embedding_db_.07 -query path_to_fasta_file -out blast_hits.tsv -outfmt "6 qseqid sseqid qseq sseq evalue bitscore length pident"
+  ```
+
+Here is an example that I would use on my own machine:
+```
+ncbi-blast-2.11.0+/bin/blastn -db blastdb/embedding_db_.07 -query fasta_test.fasta -out blast_hits.tsv -outfmt "6 qseqid sseqid qseq sseq evalue bitscore length pident"
+```
+
+## 2. To increase speed of the next steps, filter blast hits outside of R. Output will be called best_hits.tsv and will be in the data_dir folder you provide.
+```
+GMEmbeddings/R/making_embedding_transformation_matrix/filter_blast_hits.sh data_dir/with/blast_hits/
+```
+
+## 3. Install package
 
 ### Prerequisites
 
@@ -33,93 +65,51 @@ library(GMEmbeddings)
 ```
 
 
-## 2. Pass in the filepath to the embedding matrix  as a string. 
-Standard is .07_100
-
-```
-embedding_filepath <- "path/to/embedding/matrix/file"
-```
-
-This package has an example embedding matrix for you to test if you like. It can be obtained using the following command:
-```
-embedding_filepath <- system.file("extdata", "embed_.07_100dim.txt", package = "GMEmbeddings")
-```
-
-## 3. Read in your sequence table. 
+## 4. Read in your sequence table. 
 Read in your sequence table file. Different methods may be used depending on what type of file format you have.
-After being read in the sequence table should look like this:
+After being read in the sequence table should look like this, with ids in the columns and sample ids in the rows. The ids of the columns must match the ids in the fasta file used above:
 
 <img width="500" alt="Screen Shot 2021-08-25 at 10 32 06 AM" src="https://user-images.githubusercontent.com/68047298/130810454-6852a55a-5e1b-469f-b1d3-2ce774ce76ab.png">
 
 
 An example sequence table can be obtained using the following command:
 ```
-seqtab <- read.csv(system.file("extdata", "seqtab_test_ByASVid.csv", package = "GMEmbeddings"))
+seqtab <- read.csv(system.file("extdata", "test_dataset_1/asv_table.csv", package = "GMEmbeddings"), row.names = 1)
+seqtab <- t(seqtab)
 ```
 
-<!--- ## 4. Pass in the full file name of your fasta file as a string. 
-In the fasta file, ID's should be ASV ids from the column names of your sequence table, and sequences should be the full length ASV sequence. It should look like this:
+## 5. Read in the hits from running blast. 
 ```
-fasta_file <- "path/to/fasta/file"
-```
-
-
-An example fasta file can be obtained using the following command:
-```
-fasta_file <- system.file("extdata", "fasta_test.fasta", package = "GMEmbeddings")
-```
---->
-## 4.Run blast to align your sequences to the sequences in our embedding database. Here's how:
-### 4a: install blast
-To install BLAST, follow instructions at the following link
-
-https://www.ncbi.nlm.nih.gov/books/NBK279671/ 
-[](https://www.ncbi.nlm.nih.gov/books/NBK279671/)
-
-### 4b: Download blastdb embedding sequences from CGRB: 
-The files can be found at: 
-
-http://files.cgrb.oregonstate.edu/David_Lab/microbiome_embeddings/data/blastdb/
-[](http://files.cgrb.oregonstate.edu/David_Lab/microbiome_embeddings/data/blastdb/)
-
-### 4c: Align your sequences to those sequences from 5b. Here is how:
-
-Run BLAST to rename your sequence with the nearest sequence available in the embedding matrix.
-  Command should be similar to:
- 
-  ```
-  blast_software_dir/blastn -db path_to_blastdb_dir/embedding_db_.07 -query path_to_fasta_file -out output_file_name -outfmt "6 qseqid sseqid qseq sseq evalue bitscore length pident"
-  ```
-
-Here is an example that I would use on my own machine:
-```
-ncbi-blast-2.11.0+/bin/blastn -db blastdb/embedding_db_.07 -query fasta_test.fasta -out this_is_me_running_BLAST.tsv -outfmt "6 qseqid sseqid qseq sseq evalue bitscore length pident"
-```
-
-
-## 6. Read in the hits from running blast. 
-```
-blast_hits <- read.delim("path to blast hits file", header = FALSE, sep = " ")
+best_hits <- read.delim("path to best hits file", header = FALSE, sep = " ")
 ```
 An example file can be read in
 ```
-blast_hits <- read.delim(system.file("extdata", "blast_hits.tsv", package = "GMEmbeddings"))
+best_hits <- read.delim(system.file("extdata", "test_dataset_1/best_hits.tsv", package = "GMEmbeddings"), header = FALSE, sep = " ")
+colnames(best_hits) <- c("qseqid", "sseqid", "qseq", "sseq", "evalue", "bitscore", "length", "pident")
 ```
 
 We now need to add column names to our blast_hits file. To do this, use the following command:
 ```
-colnames(blast_hits) <- c("qseqid", "sseqid", "qseq", "sseq", "evalue", "bitscore", "length", "pident")
+colnames(best_hits) <- c("qseqid", "sseqid", "qseq", "sseq", "evalue", "bitscore", "length", "pident")
 ```
 
 <img width="500" alt="Screen Shot 2021-08-25 at 10 39 19 AM" src="https://user-images.githubusercontent.com/68047298/130811280-88875daa-bb60-4b39-aa1b-837532558855.png">
 
+## 6. Read in your chosen embedding transformation matrix. Options are available in glove_transformation_matrices and pca_transformation_matrices. Use one of the files with "id" in the filename. We recommend using 50 dimensions of either GloVe or PCA matrices.
+```
+embedding_filepath <- system.file("extdata/glove_transformation_matrices/", "glove_emb_id_50.txt", package = "GMEmbeddings")
+embedding_matrix <- read.delim(embedding_filepath, row.names = 1, sep = "\t")
+embedding_matrix <- embedding_matrix[rownames(embedding_matrix) != "<unk>", ]
+```
 
 ## 7. Embed your sequence table
 ```
-EmbedAsvTable(seqtab, blast_hits, embedding_matrix)
+results = EmbedAsvTable(seqtab, best_hits, embedding_matrix)
+embedded <- result$embedded
+num_seqs_aligned <- result$num_seqs_aligned
+percent_sequences_aligned <- result$percent_sequences_aligned
 ```
-Please keep in mind that the column names of the seqtab MUST match the qseqid in the blast_hits file! If they do not match patterns, the `EmbedAsvTable` function will output a matrix of all 0s.
-Your Embedded ASV Table should now be displayed in the R console window. You can also save the output as an object in order to view it as a single table.
+Please keep in mind that the column names of the seqtab MUST match the qseqid in the blast_hits file! If they do not match patterns, the `EmbedAsvTable` function will throw an error.
 
 ## Authors
 Christine Tataru

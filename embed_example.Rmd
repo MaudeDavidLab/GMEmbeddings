@@ -31,7 +31,9 @@ ids <- gsub(">", "", fasta$V1[seq(1, nrow(fasta), 2)])
 colnames(seqtab) <- ids
 ```
 
-# Read your blast hits file in, and assign column names. Check the dimensions
+# Read your blast hits file in, and assign column names. Check the dimensions.
+## To run blast, first dowload the blast database at https://files.cgrb.oregonstate.edu/David_Lab/microbiome_embeddings/blastdb_fullseq/. Then use the following command: blast_software_dir/blastn -db path_to_blastdb_dir/glove_emb_fullseq.fasta -query path_to_fasta_file -out output_file_name -outfmt "6 qseqid sseqid qseq sseq evalue bitscore length pident"
+
 ```{r}
 blast_hits <- read.delim(paste0(data_dir,"best_hits.tsv"), header = FALSE, sep = " ")
 colnames(blast_hits) <- c("qseqid", "sseqid", "qseq", "sseq", "evalue", "bitscore", "length", "pident")
@@ -72,14 +74,17 @@ dev.off()
 # Read in embedding matrix from the files provided. You chose the final number of dimensions for your data here, by changing the file name.
 Make sure you use a file called 'glove_emb_id' and NOT 'glove_emb_fullseq'. The package uses ids to match alignment within the blast_hits file, and will not work if provided an embedding matrix with nucleotide sequences instead of id numbers
 ```{r}
-embedding_filepath <- system.file("extdata/embedding_transformation_matrices/", "glove_emb_id_50.txt", package = "GMEmbeddings")
+embedding_filepath <- system.file("extdata/glove_transformation_matrices/", "glove_emb_id_50.txt", package = "GMEmbeddings")
 embedding_matrix <- read.delim(embedding_filepath, row.names = 1, sep = "\t")
 embedding_matrix <- embedding_matrix[rownames(embedding_matrix) != "<unk>", ]
 ```
 
 # Embed data
 ```{r}
-embedded<- EmbedAsvTable(seqtab, best_hits, embedding_matrix, id_thresh = id_thresh)
+result <- EmbedAsvTable(seqtab, best_hits, embedding_matrix, id_thresh = id_thresh)
+embedded <- result$embedded
+num_seqs_aligned <- result$num_seqs_aligned
+percent_sequences_aligned <- result$percent_sequences_aligned
 colnames(embedded) <- seq(1, ncol(embedded))
 ```
 
@@ -89,3 +94,12 @@ out_filepath <- paste0(data_dir, "embedded_50.csv")
 write.csv(embedded, out_filepath, quote = F)
 ```
 
+
+# Correlation dimensions with KEGG pathways
+```{r}
+library(KEGGREST)
+embed <- read.table("inst/extdata/glove_transformation_matrices/glove_emb_fullseq_50.txt", quote="\"", comment.char="", row.names = 1)
+corrmat <- getPathwayCorrelationMatrix(embed)
+fig <- getHeatmap(corrmat)
+
+```
