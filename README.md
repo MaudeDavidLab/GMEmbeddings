@@ -1,7 +1,7 @@
 [BLASThits.pdf](https://github.com/MaudeDavidLab/GMEmbeddings/files/7047752/BLASThits.pdf)
 [SequenceTable.pdf](https://github.com/MaudeDavidLab/GMEmbeddings/files/7047698/SequenceTable.pdf)
 # GMEmbeddings
-# See embed_example.Rmd for full walkthrough
+# See embed_example.Rmd as well
 
 ## 1. Install package
 
